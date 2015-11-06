@@ -21,6 +21,7 @@
           <root url="file:///Library/Frameworks/Mono.framework/Headers" />
           <root url="file:///Library/Frameworks/OSXFUSE.framework/Headers" />
           <root url="file:///Library/Frameworks/SDL.framework/Headers" />
+          <root url="file:///Library/Frameworks/SDL2.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Headers" />
@@ -186,6 +187,7 @@
           <root url="file:///Library/Frameworks/Mono.framework/Headers" />
           <root url="file:///Library/Frameworks/OSXFUSE.framework/Headers" />
           <root url="file:///Library/Frameworks/SDL.framework/Headers" />
+          <root url="file:///Library/Frameworks/SDL2.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Headers" />
           <root url="file:///System/Library/Frameworks/Accelerate.framework/Headers" />
