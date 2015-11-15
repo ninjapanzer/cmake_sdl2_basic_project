@@ -4,64 +4,68 @@
 
 using namespace std;
 
-int main(int argc, char *argv[]){
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        return 1;
+void setup(SDL_Window* window, SDL_Surface* screenSurface);
+
+//Screen dimension constants
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+
+int main(int argc, char *argv[]) {
+    //The window we'll be rendering to
+    SDL_Window* window = NULL;
+
+    //The surface contained by the window
+    SDL_Surface* screenSurface = NULL;
+
+    setup(window,screenSurface);
+
+    //Main loop flag
+    bool quit = false;
+
+    //Event handler
+    SDL_Event e;
+
+    //While application is running
+    while( !quit ) {
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0) {
+            //User requests quit
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
     }
 
-    SDL_Window *win = SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-    if (win == nullptr){
-        std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
+    //Destroy window
+    SDL_DestroyWindow( window );
 
-    SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == nullptr){
-        SDL_DestroyWindow(win);
-        std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    std::string imagePath = getResourcePath("") + "fun.bmp";
-    SDL_Surface *bmp = SDL_LoadBMP(imagePath.c_str());
-    if (bmp == nullptr){
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, bmp);
-    SDL_FreeSurface(bmp);
-    if (tex == nullptr){
-        SDL_DestroyRenderer(ren);
-        SDL_DestroyWindow(win);
-        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    for (int i = 0; i < 3; ++i){
-        //First clear the renderer
-        SDL_RenderClear(ren);
-        //Draw the texture
-        SDL_RenderCopy(ren, tex, NULL, NULL);
-        //Update the screen
-        SDL_RenderPresent(ren);
-        //Take a quick break after all that hard work
-        SDL_Delay(1000);
-    }
-
-
-
-    SDL_DestroyTexture(tex);
-    SDL_DestroyRenderer(ren);
-    SDL_DestroyWindow(win);
+    //Quit SDL subsystems
     SDL_Quit();
 
     return 0;
+}
+
+void setup(SDL_Window* window, SDL_Surface* screenSurface){
+    //Initialize SDL
+    if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+    } else {
+        //Create window
+        window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        if( window == NULL ) {
+            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        } else {
+            //Get window surface
+            screenSurface = SDL_GetWindowSurface( window );
+
+            //Fill the surface white
+            SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
+
+            //Update the surface
+            SDL_UpdateWindowSurface( window );
+
+            //Wait two seconds
+            SDL_Delay( 2000 );
+        }
+    }
 }
